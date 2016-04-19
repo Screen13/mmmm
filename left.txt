@@ -1,0 +1,7 @@
+verbos
+inventario
+cambio de pantalla
+dialogos
+sonido
+guardar/cargar
+
