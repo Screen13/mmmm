@@ -1,5 +1,5 @@
 
-function Character(name,textures, textColor) {
+function Character(name, textures, textColor, interactive, actions) {
     M4Thing.call(this, textures);
     this.anchor = new PIXI.Point(0.5,1);
     
@@ -9,11 +9,15 @@ function Character(name,textures, textColor) {
     this.talking=false;
     this.target=new PIXI.Point(0,0);
     this.textColor=textColor;
+    this.actions=actions;
 
     this.buble= new PIXI.Text('', coreVars.formatOsdLo);
     this.buble.resolution=5;
     this.buble.style.fill=textColor;
     this.buble.visible=false;
+    this.interactive=interactive;
+
+    this.naction=-1;
     
     core.osd.addChild(this.buble);
 }
@@ -21,20 +25,54 @@ Character.prototype = Object.create( M4Thing.prototype );
 Character.prototype.constructor = Character;
 
 
-Character.prototype.walkTo = function(target){
 
-        if(target.x>this.x){
+/***** INTERFACE **********/
+
+Character.prototype.click = function(mouseData){
+    core.osd.showActionsPanel(mouseData.data.getLocalPosition(core.scene).x, mouseData.data.getLocalPosition(core.scene).y);
+}
+Character.prototype.mouseover = function(mouseData){
+    
+    coreVars.itemsUnder++;
+    coreVars.item=this.name;
+    core.osd.nameItem(this.name);
+}
+Character.prototype.mouseout = function(mouseData){
+    coreVars.itemsUnder--;
+    if(coreVars.itemsUnder==0){
+        core.osd.cleanItem();
+        coreVars.item="";
+    }
+    
+}
+/*************************/
+
+
+
+
+Character.prototype.walkTo = function(tx,ty,naction){
+        /*order functions*/
+        if(typeof naction === 'undefined'){
+            naction=-1;
+            core.lactions.stop();
+        }
+        this.naction=naction;
+        /*order functions*/
+
+        this.stop();
+        if(tx>this.x){
             this.scale = new PIXI.Point(-1,1);
-        }else if(target.x<this.x){
+        }else if(tx<this.x){
             this.scale = new PIXI.Point(1,1);
         }
-        if((this.x<target.x+4)&&(this.x>target.x-4)&&(this.y<target.y+4)&&(this.y>target.y-4)){ //si estas muy cerca, ni se mueve
+        if((this.x<tx+4)&&(this.x>tx-4)&&(this.y<ty+4)&&(this.y>ty-4)){ //si estas muy cerca, ni se mueve
             this.target.x=this.x;
             this.target.y=this.y;
+            this.stopWalk();
         }else{
             if(!this.walking)this.gotoAndPlayAnimation("walk",true);
-            this.target.x=target.x;
-            this.target.y=target.y;
+            this.target.x=tx;
+            this.target.y=ty;
             this.walking=true;
         }
 
@@ -71,7 +109,15 @@ Character.prototype.lookat = function(objeto,naccion){
 }
 
 
-Character.prototype.characterSay = function(text){
+Character.prototype.say = function(text,naction){
+    /*order functions*/
+    if(typeof naction === 'undefined'){
+        naction=-1;
+        core.lactions.stop();
+    }
+    this.naction=naction;
+    /*order functions*/
+
     this.stop();
     var framesMouth=this.animations[this.getSec("talk")][1];
     
@@ -108,14 +154,31 @@ Character.prototype.characterSay = function(text){
                 break;
         }
     }
-    if(secuencia.length<30){ //30 es el tiempo minimo de buble
-        for(var i=0; i<30-secuencia.length;i++)secuencia.push(0);
+    if(secuencia.length<16){ //16 es el tiempo minimo de buble
+        for(var i=0; i<16-secuencia.length;i++)secuencia.push(0);
     }
-    this.gotoAndPlaySequence(secuencia,false);
-
+    this.gotoAndPlaySequence(secuencia,false,this.stopSay);
 }
 
+Character.prototype.stopSay = function(){
+    if(this.naction!=-1){//hay un numero de accion asignado
+        core.lactions.acabada=this.naction;
+        this.naction=-1;
+    }
+    this.stop();
+}
+Character.prototype.stopWalk = function(){
+    if(this.naction!=-1){//hay un numero de accion asignado
+        core.lactions.acabada=this.naction;
+        this.naction=-1;
+    }
+    this.stop();
+}
+
+
 Character.prototype.stop = function(){
+
+    this.buble.visible=false;
     this.gotoAndPlayAnimation("stop",true);
     this.talking=false;
     this.walking=false;
@@ -130,17 +193,6 @@ Character.prototype.update = function (deltaTime){
 */
 
 
-/***** INTERFACE **********/
-Character.prototype.say = function(data){
-    console.log(this.name+" dice "+data);
-    this.characterSay(data);
-    return this;
-}
-Character.prototype.wait = function(data){
-    console.log(this.name+" espera "+data);
-    return this;
-}
-/*************************/
 
 
 Character.prototype.bubleupdate = function(){
@@ -186,7 +238,8 @@ Character.prototype.actualiza = function(){ //nunca llamar desde fuera
             }
             //console.log(this.y+","+this.target.y+" - "+this.x+","+this.target.x);
             if( (this.x>=(this.target.x-config.speedH))&&(this.x<=(this.target.x+config.speedH))&&(this.y>=(this.target.y-config.speedV))&&(this.y<=(this.target.y+config.speedV)) ){
-                this.stop();
+
+                    this.stopWalk();
             }
         }//if talking
         

@@ -11,15 +11,12 @@ function M4Thing(textures) {
     this.indicesec = 0;
     this.animations = [];
     this.secuencia=-1;
+    this.callback=null;
     
-    this.animationSpeed = 0.1; /////////////////////////////////////////// global,local o en el config????????????????????????????????
+    this.animationSpeed = 0.1;
 }
 M4Thing.prototype = Object.create( PIXI.extras.MovieClip.prototype );
 M4Thing.prototype.constructor = M4Thing;
-
-
-
-
 
 
 
@@ -40,27 +37,28 @@ M4Thing.prototype.getSec = function(name){
     return i;
 }
 
-M4Thing.prototype.gotoAndPlayFromTo = function(from,to,loop) {
+M4Thing.prototype.gotoAndPlayFromTo = function(from, to, loop, callback) {
     this.from = from;
     this.to = to;
     this.currentTime = from;
     this.loop=loop;
+    if(typeof callback=='function')this.onComplete=callback;
     this.play();   
 }
-M4Thing.prototype.gotoAndPlayAnimation = function(name,loop) {
+M4Thing.prototype.gotoAndPlayAnimation = function(name, loop, callback) {
     var i= this.getSec(name);
     if(i!=-1){
-        this.gotoAndPlaySequence(this.animations[i][1],loop);
+        this.gotoAndPlaySequence(this.animations[i][1],loop,callback);
     }
 }
-M4Thing.prototype.gotoAndPlaySequence = function(secuencia,loop) {
+M4Thing.prototype.gotoAndPlaySequence = function(secuencia, loop, callback) {
     this.lasttime=-1;
     this.secuencia=secuencia;
     this.loop=loop;
-        
+    if(typeof callback=='function')this.onComplete=callback;
+
     this.indicesec=0;
     this.currentTime = 0;
-
     this.gotoAndPlay(this.secuencia[0]);
 }
 
@@ -86,7 +84,7 @@ M4Thing.prototype.update = function (deltaTime){
                         }else{
                             this.secuencia=-1;
                             this.gotoAndStop(0);
-                            if (this.onComplete){
+                            if (typeof this.onComplete=='function'){
                                 this.onComplete();
                             }
                         }
@@ -112,7 +110,7 @@ M4Thing.prototype.update = function (deltaTime){
                     {
                         this.gotoAndStop(0);
 
-                        if (this.onComplete)
+                        if (typeof this.onComplete=='function')
                         {
                             this.onComplete();
                         }
@@ -126,7 +124,7 @@ M4Thing.prototype.update = function (deltaTime){
                 {
                     this.gotoAndStop(this.textures.length - 1);
 
-                    if (this.onComplete)
+                    if (typeof this.onComplete=='function')
                     {
                         this.onComplete();
                     }

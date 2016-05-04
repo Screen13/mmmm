@@ -15,6 +15,13 @@ Item.prototype = Object.create( M4Thing.prototype );
 Item.prototype.constructor = Item;
 
 
+
+
+
+/***** INTERFACE **********/
+Item.prototype.click = function(mouseData){
+	core.osd.showActionsPanel(mouseData.data.getLocalPosition(core.scene).x, mouseData.data.getLocalPosition(core.scene).y);
+}
 Item.prototype.mouseover = function(mouseData){
 	coreVars.itemsUnder++;
 	coreVars.item=this.name;
@@ -28,10 +35,6 @@ Item.prototype.mouseout = function(mouseData){
 	}
 	
 }
-Item.prototype.click = function(mouseData){
-	core.osd.showActionsPanel(mouseData.data.getLocalPosition(core.scene).x, mouseData.data.getLocalPosition(core.scene).y);
-}
-
-
+/*************************/
 
 

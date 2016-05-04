@@ -70,7 +70,7 @@ Scene.prototype.constructor = Scene;
 Scene.prototype.doClick = function(mouseData){
         //Ojo, no usar this dentro de un event handler
         if(core.osd.actionsPanel.visible==true){
-            core.osd.hideActionsPanel();
+            if(coreVars.itemsUnder==0)core.osd.hideActionsPanel();
         }else{
             var point1 = new PIXI.Point(core.mainCharacter.x, core.mainCharacter.y);
             var point2 = new PIXI.Point(mouseData.data.getLocalPosition(scene_self.layers[scene_self.layer]).x,mouseData.data.getLocalPosition(scene_self.layers[scene_self.layer]).y);
@@ -82,7 +82,7 @@ Scene.prototype.doClick = function(mouseData){
               //scene_self.graphics.lineStyle(1, 0xFF0000);
               //scene_self.graphics.drawCircle(point2.x,point2.y,10);
             }
-            core.mainCharacter.walkTo(point2);
+            core.mainCharacter.walkTo(point2.x, point2.y);
         }
 }
 
@@ -95,7 +95,8 @@ Scene.prototype.addArea = function(area) {
 Scene.prototype.addCharacter = function(personaje,mcx,mcy) {
     if(mcx)personaje.x=mcx;
     if(mcy)personaje.y=mcy;
-    this.layers[this.layer].addChild(personaje)
+    this.layers[this.layer].addChild(personaje);
+    this.characters.push(personaje);
 }
 
 Scene.prototype.addItem = function(item,mcx,mcy,layer){
@@ -110,7 +111,7 @@ Scene.prototype.addItem = function(item,mcx,mcy,layer){
 
 Scene.prototype.actualiza = function(camara){
     
-    this.layers[this.layer].children.sort(core.depthCompare);
+    this.layers[this.layer].children.sort(depthCompare);
 
     if((camara.x>=0)&&(camara.y>=0)&&(camara.x<=this.layers[this.layer].width-config.width)&&(camara.y<=this.layers[this.layer].height-config.height)){
         for(var i=0; i<this.layer;i++){

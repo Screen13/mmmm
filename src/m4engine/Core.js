@@ -34,6 +34,8 @@ function Core() {
 
     this.mainCharacter;     //personaje principal
     this.scene;             //escena actual
+
+    this.lactions;
     
     this.assetsToLoad = config.assets; //podemos automatizar este array??
     
@@ -60,8 +62,10 @@ Core.prototype.start = function(){
             this.mainContainer = new PIXI.Container();
             this.osd = new Osd();
 
-            this.mainCharacter = this.loadCharacter(characters.main);
-            this.scene = this.loadScene(scenes.exterior_despacho);
+            this.lactions = new LActions();
+
+            this.mainCharacter = this.loadCharacter(main_character, false);
+            this.scene = this.loadScene(scenes.exterior_despacho); //tendria que ser la primera siempre, no? O QUE??
 
             this.scene.addCharacter(this.mainCharacter);
             this.mainContainer.addChild(this.scene);
@@ -88,6 +92,7 @@ Core.prototype.pinta = function() {
     core.mainCharacter.actualiza();
     core.camera.actualiza(core.mainCharacter);
     core.scene.actualiza(core.camera);
+    core.lactions.actualiza();
 
 /**************************** DEBUG ************************/
     if(core.keyboard['A']){
@@ -112,8 +117,8 @@ Core.prototype.pinta = function() {
 
 
 
-Core.prototype.loadCharacter = function(characterData){
-        var lcharacter = new Character(characterData.name,characterData.images,characterData.color);
+Core.prototype.loadCharacter = function(characterData, interactive){
+        var lcharacter = new Character(characterData.name,characterData.images,characterData.color, interactive, characterData.actions);
         for(var key in characterData.animations){
             lcharacter.addAnimation(key,characterData.animations[key]);
         }
@@ -136,7 +141,11 @@ Core.prototype.loadScene = function(sceneData){
         lscene.addArea(larea);
     }
     for (var i = 0; i < sceneData.items.length; i++) {
-        lscene.addItem(new Item(sceneData.items[i].name,sceneData.items[i].images,sceneData.items[i].bucle,sceneData.items[i].width,sceneData.items[i].height, sceneData.items[i].actions),sceneData.items[i].x,sceneData.items[i].y,sceneData.items[i].z);//x y capa(-3 +3)
+        lscene.addItem(new Item(sceneData.items[i].name,sceneData.items[i].images,sceneData.items[i].loop,sceneData.items[i].width,sceneData.items[i].height, sceneData.items[i].actions),sceneData.items[i].x,sceneData.items[i].y,sceneData.items[i].z);//x y capa(-3 +3)
+    }
+
+    for (var i = 0; i < sceneData.characters.length; i++) {
+        lscene.addCharacter(this.loadCharacter(sceneData.characters[i], true),sceneData.characters[i].x,sceneData.characters[i].y);
     }
 
     return lscene;
@@ -145,50 +154,51 @@ Core.prototype.loadScene = function(sceneData){
 
 Core.prototype.action = function(verb, item){
         var nv=-1;
-        for (var i = 0; i < this.scene.items.length; i++) {
+        for (var i = 0; i < this.scene.items.length; i++) { // WITH ITEMS **************************
             if(this.scene.items[i].name==item){
                 nv=config.verbs.indexOf(verb);
-                if(this.scene.items[i].actions==undefined){ //si no hay action concreta
-                    this.get(this.mainCharacter.name).say(config.verbsDefaultText[nv]);
+                if(this.scene.items[i].actions==undefined){ //si no hay action definida
+                    this.character(this.mainCharacter.name).say(config.verbsDefaultText[nv]);
                 }else{
-                    this.scene.items[i].actions[nv]();
+                    //eval(this.scene.items[i].actions[verb]);
+                    var strfunc="";
+                    core.lactions.stop();
+                    strfunction=core.scene.items[i].actions[verb][0];
+                    core.lactions.add(strfunction);
+                    strfunction=core.scene.items[i].actions[verb][1];
+                    core.lactions.add(strfunction);
+                    core.lactions.play();
+                }
+                
+            }//if
+        }//for
+        for (var i = 0; i < this.scene.characters.length; i++) { // WITH CHARACTERS **************************
+            if(this.scene.characters[i].name==item){
+                nv=config.verbs.indexOf(verb);
+                if(this.scene.characters[i].actions==undefined){ //si no hay action definida
+                    this.character(this.mainCharacter.name).say(config.verbsDefaultText[nv]);
+                }else{
+                    eval(this.scene.items[i].actions[verb]);
                 }
                 
             }//if
         }//for
     }
+/*
+core.character().walkTo(x,y);
+core.character().say(a);
+core.scene().addObject(a);
+core.scene().removeObject(a);
+core.inventory.addObject(a);
+core.inventory.removeObject(a);
+core.variables.set(a,0);
+core.variables.get(a,0);
+core.osd.off();
+core.osd.on();
+*/
 
-Core.prototype.get = function(selector){
-    for (var i = 0; i < this.scene.items.length; i++) {
-        if(this.scene.items[i].name==selector){
-            
-        }//if
-    }//for
-    for (var i = 0; i < this.scene.characters.length; i++) {
-        if(this.scene.characters[i].name==selector){
-            
-        }//if
-    }//for  
-    if(this.mainCharacter.name==selector){
-        return this.mainCharacter;
-    }
-}
 
-Core.prototype.depthCompare = function(a,b){  //esto estaria mejor en una libreria de utilidades
-    a2=a.y;
-    b2=b.y;
-    if(a.anchor.y==0)a2=a.y+a.height;
-    if(b.anchor.y==0)b2=b.y+b.height;
-    if (b2 < a2){
-        return 1;
-    }else if(b2 > a2){
-        return -1;
-    }else{
-        return 0;
-    }
-    
-    
-}
+
 
 
 coreVars={
@@ -198,7 +208,8 @@ coreVars={
     formatOsdLo:{font : '13px pc_seniorregular', fill : config.colorOsdLo, stroke : 0x000000, strokeThickness : 2, align : 'center'},
     formatOsdHi:{font : '13px pc_seniorregular', fill : config.colorOsdHi, stroke : 0x000000, strokeThickness : 2, align : 'center'},
     formatOsd2Lo:{font : '13px pc_seniorregular', fill : config.colorOsd2Lo, stroke : 0x000000, strokeThickness : 2, align : 'center'},
-    formatOsd2Hi:{font : '13px pc_seniorregular', fill : config.colorOsd2Hi, stroke : 0x000000, strokeThickness : 2, align : 'center'}
+    formatOsd2Hi:{font : '13px pc_seniorregular', fill : config.colorOsd2Hi, stroke : 0x000000, strokeThickness : 2, align : 'center'},
+    inventory:[]
 }
 
 var core = new Core();

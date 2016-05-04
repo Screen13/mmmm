@@ -9,7 +9,11 @@ function Osd() {
 	this.actionsPanel= new Actions();
     this.actionsPanel.visible=false;
 
+    this.inventoryPanel = new Inventory();
+    this.inventoryPanel.visible=true; /********************************************************************************/
 
+
+    this.addChild(this.inventoryPanel);
     this.addChild(this.bottomDisplay);
     this.addChild(this.actionsPanel);
 }
@@ -26,7 +30,6 @@ Osd.prototype.cleanItem = function(texto){
 }
 
 Osd.prototype.showActionsPanel = function(px,py){
-
     this.actionsPanel.obj.text=coreVars.item;
     
     this.actionsPanel.x=px-Math.floor(100/2);
@@ -35,7 +38,7 @@ Osd.prototype.showActionsPanel = function(px,py){
     if(this.actionsPanel.y+100>config.height)this.actionsPanel.y=config.height-100;
 
     this.actionsPanel.visible=true;
-    
+
     
 }
 Osd.prototype.hideActionsPanel = function(){
