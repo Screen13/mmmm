@@ -1,54 +1,108 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-    	<title>Motor</title>
+    	<title>M4 Engine</title>
         <meta charset="utf-8">
     	<style>
+            html{
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
     		body {
     			margin: 0;
     			padding: 0;
     			background-color: #000000;
-                /*cursor: none;*/
+                cursor: none;
+
     		}
             canvas{
                 display: block;
                 margin: 0px auto;
             }
+
+
             @font-face {
-                font-family: 'pc_seniorregular';
-                src: url('m4engine/fonts/pcsenior-webfont.eot');
-                src: url('m4engine/fonts/pcsenior-webfont.eot?#iefix') format('embedded-opentype'),
-                     url('m4engine/fonts/pcsenior-webfont.woff2') format('woff2'),
-                     url('m4engine/fonts/pcsenior-webfont.woff') format('woff'),
-                     url('m4engine/fonts/pcsenior-webfont.ttf') format('truetype'),
-                     url('m4engine/fonts/pcsenior-webfont.svg#pc_seniorregular') format('svg');
+                font-family: 'normal-font';
+                src: url('m4engine/fonts/console_mio.woff') format('woff');
+                /*src: url('m4engine/fonts/nokiafc22.woff') format('woff');*/
                 font-weight: normal;
                 font-style: normal;
+            }
+            @font-face {
+                font-family: 'led-font';
+                src: url('m4engine/fonts/DSEG7Classic-Bold.woff') format('woff');
+                /*src: url('m4engine/fonts/nokiafc22.woff') format('woff');*/
+                font-weight: normal;
+                font-style: normal;
+            }
+
+
+
+            #fullscreen{
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                color: #fff;
+                font-size: 20px;
 
             }
+
+
+
     	</style>
-        
+
+
+        <script src="m4engine/vendors/soundjs/soundjs-0.6.1.min.js"></script>
+    	<script src="m4engine/vendors/pixijs/pixi.min.js"></script>
+
+    	<script>
+    	//bugfix para el problema de fuentes cortadas en pixi v3
+
+    	PIXI.Text.prototype.determineFontProperties = function(fontStyle){
+    		var properties = PIXI.Text.fontPropertiesCache[fontStyle];
+    		if(properties){		return properties;	}
+    		properties =  {
+    			ascent: 10,
+    			descent: 10,
+    			fontSize: 20	};
+    			PIXI.Text.fontPropertiesCache[fontStyle] = properties;
+    			return properties;
+    	}
+
+    	</script>
         <script src="m4engine/KeyboardModule.js"></script>
-    	<script src="m4engine/pixi.min.js"></script>
         <script src="m4engine/Utilities.js"></script>
         <script src="m4engine/Pathfinding.js"></script>
         <script src="m4engine/LActions.js"></script>
         <script src="m4engine/M4Thing.js"></script>
+        <script src="m4engine/Text.js"></script>
+        <script src="m4engine/VerbIcon.js"></script>
+        <script src="m4engine/Dialog.js"></script>
         <script src="m4engine/Item.js"></script>
         <script src="m4engine/Camera.js"></script>
         <script src="m4engine/Scene.js"></script>
         <script src="m4engine/Character.js"></script>
         <script src="m4engine/Inventory.js"></script>
         <script src="m4engine/Actions.js"></script>
+        <script src="m4engine/Options.js"></script>
+        <script src="m4engine/Notebook.js"></script>
+        <script src="m4engine/Cursor.js"></script>
         <script src="m4engine/Osd.js"></script>
 
-        <script src="config.js"></script>
+
+
+        <script src="gamedata/config.js"></script>
+        <script src="gamedata/scenes/start.js"></script>
+        
 
         <script src="m4engine/Core.js"></script>
 
+
     </head>
     <body>
-
+        <!--<p id="fullscreen">[&nbsp;]</p>-->
 
     </body>
 </html>

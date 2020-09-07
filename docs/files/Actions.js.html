@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Actions.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/Actions.html">Actions</a></li>
+                                <li><a href="../classes/Camera.html">Camera</a></li>
+                                <li><a href="../classes/Core.html">Core</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: Actions.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* Ejecuta las acciones.
+*
+* @class Actions
+* @Actions
+*/
+function Actions() {
+    actions_self=this;
+    PIXI.Sprite.call(this);
+  
+    this.obj= new Text(&#x27;&#x27;,coreVars.formatOsdLo);
+    this.obj.x=0; this.obj.y=0;
+    this.obj.id=0;
+    //this.addChild(this.obj); //titulo del objeto (solo debe aparecer si se usa la version texto del selector)
+    this.aro=new PIXI.Sprite(PIXI.Texture.fromFrame(&quot;osd_aro.png&quot;));
+    this.aro.x=0; this.aro.y=0;
+    this.addChild(this.aro);
+
+    this.verbs=[];
+
+    /*
+    //Verbos en formato texto
+    for (var i = 0; i &lt; config.base.verbs.length; i++) {
+        this.verbs.push(new Text(config.base.verbs[i].name,coreVars.formatOsd2Lo,coreVars.formatOsd2Hi) );
+        this.verbs[i].x=0; this.verbs[i].y=15+(15*i); // altura del texto e interlineado
+        this.verbs[i].name=config.base.verbs[i].name;
+        this.addChild(this.verbs[i]);
+        this.verbs[i].click=this.selecciona;
+    }
+    */
+
+    //Verbos en formato imagen
+    var angulo_inicial=2.5;
+    var incremento=(2*Math.PI)/3; //3 es el numero de verbos
+    var i=0; //coger
+    this.verbs.push(new VerbIcon(config.base.verbs[i].name,&quot;osd_ico_mano_1.png&quot;,&quot;osd_ico_mano_2.png&quot;) );
+    this.verbs[i].x=Math.cos(angulo_inicial)*28  +29-20
+    this.verbs[i].y=Math.sin(angulo_inicial)*28  +29-20
+    this.addChild(this.verbs[i]);
+    this.verbs[i].click=this.selecciona;
+    i=1; //mirar
+    angulo_inicial=angulo_inicial+incremento;
+    this.verbs.push(new VerbIcon(config.base.verbs[i].name,&quot;osd_ico_ojo_1.png&quot;,&quot;osd_ico_ojo_2.png&quot;) );
+    this.verbs[i].x=Math.cos(angulo_inicial)*28  +29-20
+    this.verbs[i].y=Math.sin(angulo_inicial)*28  +29-20
+    this.addChild(this.verbs[i]);
+    this.verbs[i].click=this.selecciona;
+    i=2; //hablar
+    angulo_inicial=angulo_inicial+incremento;
+    this.verbs.push(new VerbIcon(config.base.verbs[i].name,&quot;osd_ico_boca_1.png&quot;,&quot;osd_ico_boca_2.png&quot;) );
+    this.verbs[i].x=Math.cos(angulo_inicial)*28  +29-20
+    this.verbs[i].y=Math.sin(angulo_inicial)*28  +29-20
+    this.addChild(this.verbs[i]);
+    this.verbs[i].click=this.selecciona;
+}
+Actions.prototype = Object.create( PIXI.Sprite.prototype );
+Actions.prototype.constructor = Actions;
+
+
+Actions.prototype.selecciona = function(mouseData){
+    actions_self.doAction(mouseData.target.name,actions_self.obj.id);
+    core.osd.hideActionsPanel();
+}
+
+
+/**
+* Ejecuta el verbo seleccionado sobre el item del escenario o del inventario.
+*
+* @method doAction
+* @param {String} verb Acción a ejecutar ([verbo], useAt, gotoDoor, gotoDoorInmediate)
+* @param {String} itemName ID del item sobre el que ejecutar la acción. Puede ser del escenario o del inventario.
+*/
+Actions.prototype.doAction = function(verb, itemName){
+
+    var thing;
+    if(!thing)if(core.osd.inventoryPanel.container.visible==false){
+        thing=getItem(itemName);
+    }else{
+        thing=getItemInventory(itemName);
+    }
+    if(!thing)thing=getCharacter(itemName);
+    if(!thing)thing=getDoor(itemName);
+    if(typeof thing!=&#x27;undefined&#x27;){
+
+
+
+
+    core.lactions.stop();
+    if((typeof thing.actions==&#x27;undefined&#x27;)||(typeof thing.actions[verb]==&#x27;undefined&#x27;)){ //si no hay action definida para este item
+        if(core.osd.inventoryPanel.container.visible==false){
+            if(verb==&quot;useAt&quot;){
+                //console.log(&quot;USAR CON personaje u objeto&quot;);
+                //thing.name = objeto del escenario o character
+                //core.osd.cursor.itemAtObj.name = objeto en el cursor
+                if(getCharacter(thing.id)){ //si es un personaje...
+                    core.lactions.add(&quot;core.character.say(&#x27;&quot;+getVerb(&quot;coger&quot;).useAtCharText.replace(&#x27;#item#&#x27;,core.osd.cursor.itemAtObj.name)+&quot;&#x27;, naction)&quot;);
+                }else{
+                    core.lactions.add(&quot;core.character.say(&#x27;&quot;+getVerb(&quot;coger&quot;).useAtText.replace(&#x27;#item#&#x27;,core.osd.cursor.itemAtObj.name)+&quot;&#x27;, naction)&quot;);
+                }
+            }else if(verb==&quot;gotoDoor&quot;){
+                core.lactions.add(&quot;core.character.walkTo(&quot;+(thing.x+(thing.width/2))+&quot;,&quot;+(thing.y+thing.height)+&quot;, naction)&quot;);
+                core.lactions.add( &quot;core.loadScene(getScene(&#x27;&quot;+thing.goto+&quot;&#x27;),&quot;+thing.gotoEnter+&quot;)&quot; );
+            }else if(verb==&quot;gotoDoorInmediate&quot;){
+                core.lactions.add(&quot;getItem(&#x27;mini_coche&#x27;).slideTo(&quot;+thing.x+&quot;,&quot;+(thing.y+20)+&quot;, naction)&quot;); /************************************************************** MINICOCHE HARDCODE ***********/
+                core.lactions.add( &quot;core.loadScene(getScene(&#x27;&quot;+thing.goto+&quot;&#x27;),&quot;+thing.gotoEnter+&quot;)&quot; );
+            }else{
+                if(thing)core.lactions.add(&quot;core.character.lookAt(&#x27;&quot;+thing.name+&quot;&#x27;,naction)&quot;);
+                core.lactions.add(&quot;core.character.say(&#x27;&quot;+getVerb(verb).defaultText+&quot;&#x27;, naction)&quot;);
+            }
+        }else{//en el inventario
+            if(verb==&quot;coger&quot;){ /******************************* no deberia ser por nombre de verbo.. quizas orden y que siempre sea coger el primero en el json?? *****************/
+                core.osd.cursor.addItem(thing);
+            }else if(verb==&quot;useAt&quot;){
+                //console.log(&quot;USAR CON inventario&quot;);
+                var actionstodo=&quot;&quot;;
+                for (var k in thing.actions[&quot;useAt&quot;]){
+                    if(k==core.osd.cursor.itemAtObj.id){ //si tiene accion especifica para este objeto
+                        actionstodo=thing.actions[&quot;useAt&quot;][k];
+                    }
+                }
+                if(actionstodo==&quot;&quot;){
+                //thing.name = objeto del escenario o character
+                //core.osd.cursor.itemAtObj.name = objeto en el cursor
+                    core.lactions.add(&quot;core.character.say(&#x27;&quot;+getVerb(&quot;coger&quot;).useAtText.replace(&#x27;#item#&#x27;,core.osd.cursor.itemAtObj.name)+&quot;&#x27;, naction)&quot;);
+                }else{
+                    this.doActions(actionstodo,thing);
+                }
+            }else{
+                if(getVerb(verb)){ //evita error si clicas en una puerta con el inventario abierto
+                    if(thing)core.lactions.add(&quot;core.character.lookAt(&#x27;&quot;+thing.name+&quot;&#x27;,naction)&quot;);
+                    core.lactions.add(&quot;core.character.say(&#x27;&quot;+getVerb(verb).defaultText+&quot;&#x27;, naction)&quot;); 
+                }
+            }
+
+        }
+    }else{
+        if(verb==&quot;useAt&quot;){
+            var actionstodo=&quot;&quot;;
+            for (var k in thing.actions[&quot;useAt&quot;]){
+                if(k==core.osd.cursor.itemAtObj.id){ //si tiene accion especifica para este objeto
+                    actionstodo=thing.actions[&quot;useAt&quot;][k];
+                }
+            }
+            if(actionstodo==&quot;&quot;){
+                //accion por defecto (esto esta repetido arriba)
+                //thing.name = objeto del escenario o character
+                //core.osd.cursor.itemAtObj.name = objeto en el cursor
+                if(getCharacter(thing.name)){ //si es un personaje...
+                    core.lactions.add(&quot;core.character.say(&#x27;&quot;+getVerb(&quot;coger&quot;).useAtCharText.replace(&#x27;#item#&#x27;,core.osd.cursor.itemAtObj.name)+&quot;&#x27;, naction)&quot;);
+                }else{
+                    core.lactions.add(&quot;core.character.say(&#x27;&quot;+getVerb(&quot;coger&quot;).useAtText.replace(&#x27;#item#&#x27;,core.osd.cursor.itemAtObj.name)+&quot;&#x27;, naction)&quot;);
+                }
+            }else{
+                this.doActions(actionstodo,thing);
+            }
+        }else{
+            this.doActions(thing.actions[verb],thing, getItemInventory(&quot;tripas de pescado&quot;));/////////////////// O J O C U I D A O //////
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+            /***********************************************************************************/
+        }//if useAt
+    }//if
+    core.lactions.play();
+    }//if thing
+}
+
+/**
+* Ejecuta la acción (o acciones) por orden. Método principal par ejecutar listas de acciones en el juego.
+* Las acciones pueden ser:
+* - Dialog: (params-&gt;ID del dialogo, thing-&gt;Objeto o personaje al que mirar)
+* - dialogNoGoto: Igual que Dialog, pero no se acerca para hablar.
+* - pick: (params-&gt;ID del objeto que añade al inventario, thing-&gt;Objeto que coge del escenario)
+* - say: (params-&gt;Texto a decir, thing-&gt;Objeto o personaje al que mirar)
+* - walk: (params-&gt;Coordenadas (separadas por , ))
+* - walkToObject: (thing-&gt;Objeto al que acercarse)
+* - goto: Ir a la escena PARAMS
+* - gotosub: Igual que goto, pero recuerda la escena y la posicion actual en gameVars.
+* - combine: Elimina 1 y 2 del inventario y añade 3.
+* - addInventory: Añade PARAMS al inventario.
+* - removeInventory: Elimina PARAMS de inventario.
+* - setVar: Variable (gameVars), valor.
+* - hideObject: Oculta el objeto PARAMS.
+* - showObject: Muestra el objeto PARAMS.
+* - moveObject: Item, x, y.
+* - osdOff: Apaga el OSD.
+* - osdOn: Enciende el OSD.
+* - animation: Character, animacion, loop (true o false).
+* - objAnimation: Item, animacion, loop (true o false).
+*
+* @method doActions
+* @param {Array} actions Lista de acciones [if, action, params] a ejecutar.
+* @param {String} thing Parámetro extra 1, usado en algunas actions.
+* @param {String} thing2 Parámetro extra 2, usado en algunas actions.
+*/
+Actions.prototype.doActions = function(actions, thing, thing2){
+
+    var skip_this_action = false;
+
+    for (var i = 0; i &lt; actions.length; i++) {
+
+        skip_this_action = false;
+
+        if(typeof(actions[i].if)!=&quot;undefined&quot;){
+
+            var tautology=actions[i].if.split(&quot;,&quot;);
+            
+            if(gameVars[tautology[0]]==JSON.parse(tautology[1])){
+                skip_this_action = false;
+            }else{
+	                skip_this_action = true;
+            }
+
+            
+        }
+
+        if(skip_this_action==false){
+
+        switch(actions[i].action){
+            case &quot;dialog&quot;:
+                var point1 = new PIXI.Point(core.character.x, core.character.y);
+                var point2 = new PIXI.Point(thing.x,thing.y);
+                var path = shortestPath(point1.x,point1.y,point2.x,point2.y,scene_self.areas);
+
+                if(path.encontrado==false)point2=lineaMasCercana(point2.x,point2.y,scene_self.areas);
+                if(core.character.x&lt;thing.x){
+                    distancia_a_objeto=-150;
+                    distancia_a_objeto=distancia_a_objeto+Math.abs(point2.x-thing.x);
+                }else{
+                    distancia_a_objeto=150;
+                    distancia_a_objeto=distancia_a_objeto-Math.abs(point2.x-thing.x);//si Matt ya esta bastante lejos del personaje, porque no puede acercarse mas, no le resto los 150
+                }
+                
+                
+                core.lactions.add(&quot;core.character.walkTo(&quot;+(point2.x+distancia_a_objeto)+&quot;,&quot;+point2.y+&quot;, naction)&quot;);
+                core.lactions.add(&quot;core.character.lookAt(&#x27;&quot;+thing.name+&quot;&#x27;,naction)&quot;);
+                core.lactions.add(&quot;getDialog(&#x27;&quot;+actions[i].params+&quot;&#x27;).play()&quot;);
+            break;
+            case &quot;dialogNoGoto&quot;:
+                core.lactions.add(&quot;getDialog(&#x27;&quot;+actions[i].params+&quot;&#x27;).play()&quot;);
+            break;
+            case &quot;pick&quot;:
+
+                    var point1 = new PIXI.Point(core.character.x, core.character.y);
+                    //se para antes de llegar al objeto
+                    if(core.character.x&lt;thing.x){
+                        distancia_a_objeto=-50;
+                    }else{
+                        distancia_a_objeto=50;
+                    }
+                    var point2 = new PIXI.Point(thing.x+distancia_a_objeto,thing.y);
+                    var path = shortestPath(point1.x,point1.y,point2.x,point2.y,scene_self.areas);
+
+                    if(path.encontrado==false)point2=lineaMasCercana(point2.x,point2.y,scene_self.areas);
+                    core.lactions.add(&quot;core.character.walkTo(&quot;+point2.x+&quot;,&quot;+point2.y+&quot;, naction)&quot;);
+                    core.lactions.add(&quot;core.character.lookAt(&#x27;&quot;+thing.id+&quot;&#x27;,naction)&quot;);
+                    core.lactions.add(&quot;core.character.pick(&#x27;&quot;+thing.id+&quot;&#x27;,naction)&quot;);
+                    core.lactions.add(&quot;core.scene.removeItem(&#x27;&quot;+thing.id+&quot;&#x27;,naction)&quot;);
+
+                    core.lactions.add(&quot;core.osd.inventoryPanel.in(&#x27;&quot;+actions[i].params+&quot;&#x27;,naction)&quot;);
+            break;
+            case &quot;say&quot;:
+                if(thing)core.lactions.add(&quot;core.character.lookAt(&#x27;&quot;+thing.name+&quot;&#x27;,naction)&quot;);
+                core.lactions.add(&quot;core.character.say(&#x27;&quot;+actions[i].params+&quot;&#x27;, naction)&quot;);
+                //core.lactions.add(&quot;core.osd.inventoryPanel.out(&#x27;chicle&#x27;,naction)&quot;);
+                //core.lactions.add(&quot;core.osd.inventoryPanel.out(&#x27;pelo de rata&#x27;,naction)&quot;);
+                //core.lactions.add(&quot;core.osd.inventoryPanel.in(&#x27;bigote falso&#x27;,naction)&quot;);
+
+            break;
+            case &quot;walk&quot;:
+                var parameters=actions[i].params.split(&quot;,&quot;);
+                //console.log(parameters);
+                //console.log(&quot;getCharacter(&#x27;&quot;+thing.name+&quot;&#x27;&#x27;).walkTo(&quot;+parameters[0]+&quot;,&quot;+parameters[1]+&quot;, naction)&quot;);
+                //if(typeof(getCharacter(thing.name))==&quot;undefined&quot;)thing.name=core.character.name;
+                //core.lactions.add(&quot;getCharacter(&#x27;&quot;+thing.name+&quot;&#x27;).walkTo(&quot;+parameters[0]+&quot;,&quot;+parameters[1]+&quot;, naction)&quot;);
+                core.lactions.add(&quot;getCharacter(&#x27;&quot;+parameters[0]+&quot;&#x27;).walkTo(&quot;+parameters[1]+&quot;,&quot;+parameters[2]+&quot;, naction)&quot;);
+            break;
+            case &quot;walk2&quot;: //especial para sparky *****************************************************************************
+                var parameters=actions[i].params.split(&quot;,&quot;);
+                core.lactions.add(&quot;getCharacter(&#x27;&quot;+parameters[0]+&quot;&#x27;).walk2To(&quot;+parameters[1]+&quot;,&quot;+parameters[2]+&quot;, naction)&quot;);
+            break;
+            case &quot;walkToObject&quot;:
+
+                //if(typeof(getCharacter(thing.name))==&quot;undefined&quot;)thing.name=core.character.name;
+                var point1 = new PIXI.Point(core.character.x, core.character.y);
+                    //se para antes de llegar al objeto
+                    if(core.character.x&lt;thing.x){
+                        distancia_a_objeto=-10;//90
+                    }else{
+                        distancia_a_objeto=10;//90
+                    }
+                    var point2 = new PIXI.Point(thing.x+distancia_a_objeto,thing.y);
+                    var path = shortestPath(point1.x,point1.y,point2.x,point2.y,scene_self.areas);
+
+                    if(path.encontrado==false)point2=lineaMasCercana(point2.x,point2.y,scene_self.areas);
+                    core.lactions.add(&quot;core.character.walkTo(&quot;+point2.x+&quot;,&quot;+point2.y+&quot;, naction)&quot;);
+                    
+                    core.lactions.add(&quot;core.character.lookAt(&#x27;&quot;+thing.id+&quot;&#x27;,naction)&quot;);
+            break;
+
+            case &quot;goto&quot;:
+                core.lactions.add(&quot;core.loadScene(getScene(&#x27;&quot;+actions[i].params+&quot;&#x27;))&quot;);
+            break;
+            case &quot;gotosub&quot;:
+                var parameters=actions[i].params.split(&quot;,&quot;);
+                coreVars.gosubAction=parameters[1];
+                coreVars.gosubScene=core.scene.id;
+                coreVars.gosubPosition={x:core.character.x,y:core.character.y,scale:core.character.scale};
+                
+                core.lactions.add(&quot;core.loadScene(getScene(&#x27;&quot;+parameters[0]+&quot;&#x27;))&quot;);
+            break;
+            case &quot;combine&quot;:
+                core.osd.cursor.removeItem();
+                core.lactions.add(&quot;core.osd.inventoryPanel.out(&#x27;&quot;+actions[i].params[0]+&quot;&#x27;,naction)&quot;);
+                core.lactions.add(&quot;core.osd.inventoryPanel.out(&#x27;&quot;+actions[i].params[1]+&quot;&#x27;,naction)&quot;);
+                core.lactions.add(&quot;core.osd.inventoryPanel.in(&#x27;&quot;+actions[i].params[2]+&quot;&#x27;,naction)&quot;);
+            break;
+            case &quot;addInventory&quot;:
+                core.lactions.add(&quot;core.osd.inventoryPanel.in(&#x27;&quot;+actions[i].params+&quot;&#x27;,naction)&quot;);
+            break;
+            case &quot;removeInventory&quot;:
+                //core.osd.cursor.removeItem();
+                core.lactions.add(&quot;core.osd.inventoryPanel.out(&#x27;&quot;+actions[i].params+&quot;&#x27;,naction)&quot;);
+            break;
+            case &quot;setVar&quot;:
+                var parameters=actions[i].params.split(&quot;,&quot;);
+                gameVars[parameters[0]]=parameters[1];
+            break;
+            case &quot;hideObject&quot;:
+                core.lactions.add(&quot;core.scene.hideItem(&#x27;&quot;+actions[i].params+&quot;&#x27;,naction)&quot;);
+            break;
+            case &quot;showObject&quot;:
+                core.lactions.add(&quot;core.scene.showItem(&#x27;&quot;+actions[i].params+&quot;&#x27;,naction)&quot;);
+            break;
+            case &quot;moveObject&quot;:
+                var parameters=actions[i].params.split(&quot;,&quot;);
+                core.lactions.add(&quot;core.scene.moveItem(&#x27;&quot;+parameters[0]+&quot;&#x27;,&quot;+parameters[1]+&quot;,&quot;+parameters[2]+&quot;,naction)&quot;);
+
+            break;
+            case &quot;osdOff&quot;:
+                core.lactions.add(&quot;core.osd.hide(naction)&quot;);
+            break;
+            case &quot;osdOn&quot;:
+                core.lactions.add(&quot;core.osd.show(naction)&quot;);
+            break;
+            case &quot;animation&quot;:
+                var parameters=actions[i].params.split(&quot;,&quot;);
+                if(parameters.length==3){
+                    core.lactions.add(&quot;getCharacter(&#x27;&quot;+parameters[0]+&quot;&#x27;).doAnimationLoop(&#x27;&quot;+parameters[1]+&quot;&#x27;,naction)&quot;   );
+                }else{
+                    core.lactions.add(&quot;getCharacter(&#x27;&quot;+parameters[0]+&quot;&#x27;).doAnimation(&#x27;&quot;+parameters[1]+&quot;&#x27;,naction)&quot;   );
+                }
+            break;
+            case &quot;objAnimation&quot;:
+                var parameters=actions[i].params.split(&quot;,&quot;);
+                if(parameters.length==3){
+                    core.lactions.add(&quot;getItem(&#x27;&quot;+parameters[0]+&quot;&#x27;).doAnimationLoop(&#x27;&quot;+parameters[1]+&quot;&#x27;,naction)&quot;   );
+                }else{
+                    core.lactions.add(&quot;getItem(&#x27;&quot;+parameters[0]+&quot;&#x27;).doAnimation(&#x27;&quot;+parameters[1]+&quot;&#x27;,naction)&quot;   );
+                }
+            break;
+            case &quot;showNotebook&quot;:
+                    core.osd.inventoryPanel.hide();
+                    core.osd.notebookPanel.show();
+            break;
+            case &quot;escribe&quot;: //muy concreto para Matt Murphy
+                var parameters=actions[i].params; //cuidado, el texto no puede contener comas si hago split!!
+                core.lactions.add(&quot;core.osd.notebookPanel.in(\&quot;&quot;+parameters+&quot;\&quot;,naction)&quot;);
+//                core.lactions.add(&quot;getCharacter(\&quot;Matt Murphy\&quot;).doAnimation(\&quot;escribe\&quot;,naction)&quot;);
+            break;
+        }//switch
+
+
+        }//if skip_this_action
+    }//for
+}
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,704 @@
+{
+    "project": {},
+    "files": {
+        "vendors/phoria/gl-matrix-min.js": {
+            "name": "vendors/phoria/gl-matrix-min.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "vendors/soundjs/soundjs-0.6.1.min.js": {
+            "name": "vendors/soundjs/soundjs-0.6.1.min.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "Actions.js": {
+            "name": "Actions.js",
+            "modules": {},
+            "classes": {
+                "Actions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "Camera.js": {
+            "name": "Camera.js",
+            "modules": {},
+            "classes": {
+                "Camera": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "Character.js": {
+            "name": "Character.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "Core.js": {
+            "name": "Core.js",
+            "modules": {},
+            "classes": {
+                "Core": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "Item.js": {
+            "name": "Item.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "M4Thing.js": {
+            "name": "M4Thing.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "Utilities.js": {
+            "name": "Utilities.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Actions": {
+            "name": "Actions",
+            "shortname": "Actions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "Actions.js",
+            "line": 1,
+            "description": "Ejecuta las acciones.",
+            "actions": ""
+        },
+        "Camera": {
+            "name": "Camera",
+            "shortname": "Camera",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "Camera.js",
+            "line": 1,
+            "description": "Controla las coordenadas y el comportamiento de la camara en la escena actual.",
+            "camera": ""
+        },
+        "Core": {
+            "name": "Core",
+            "shortname": "Core",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "Core.js",
+            "line": 1,
+            "description": "Clase principal, encargada de inicializar y controlar el resto de componentes.",
+            "core": ""
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "vendors/phoria/gl-matrix-min.js",
+            "line": 1,
+            "fileoverview": "gl-matrix - High performance matrix and vector operations",
+            "author": "Colin MacKenzie IV",
+            "version": "2.2.0",
+            "class": "Actions"
+        },
+        {
+            "file": "vendors/soundjs/soundjs-0.6.1.min.js",
+            "line": 13,
+            "description": "SoundJS FlashAudioPlugin also includes swfobject (http://code.google.com/p/swfobject/)",
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 66,
+            "description": "Ejecuta el verbo seleccionado sobre el item del escenario o del inventario.",
+            "itemtype": "method",
+            "name": "doAction",
+            "params": [
+                {
+                    "name": "verb",
+                    "description": "Acción a ejecutar ([verbo], useAt, gotoDoor, gotoDoorInmediate)",
+                    "type": "String"
+                },
+                {
+                    "name": "itemName",
+                    "description": "ID del item sobre el que ejecutar la acción. Puede ser del escenario o del inventario.",
+                    "type": "String"
+                }
+            ],
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 158,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 159,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 160,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 161,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 162,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 163,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 164,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 165,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 166,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 167,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 168,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 169,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 170,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 171,
+            "class": "Actions"
+        },
+        {
+            "file": "Actions.js",
+            "line": 178,
+            "description": "Ejecuta la acción (o acciones) por orden. Método principal par ejecutar listas de acciones en el juego.\nLas acciones pueden ser:\n- Dialog: (params->ID del dialogo, thing->Objeto o personaje al que mirar)\n- dialogNoGoto: Igual que Dialog, pero no se acerca para hablar.\n- pick: (params->ID del objeto que añade al inventario, thing->Objeto que coge del escenario)\n- say: (params->Texto a decir, thing->Objeto o personaje al que mirar)\n- walk: (params->Coordenadas (separadas por , ))\n- walkToObject: (thing->Objeto al que acercarse)\n- goto: Ir a la escena PARAMS\n- gotosub: Igual que goto, pero recuerda la escena y la posicion actual en gameVars.\n- combine: Elimina 1 y 2 del inventario y añade 3.\n- addInventory: Añade PARAMS al inventario.\n- removeInventory: Elimina PARAMS de inventario.\n- setVar: Variable (gameVars), valor.\n- hideObject: Oculta el objeto PARAMS.\n- showObject: Muestra el objeto PARAMS.\n- moveObject: Item, x, y.\n- osdOff: Apaga el OSD.\n- osdOn: Enciende el OSD.\n- animation: Character, animacion, loop (true o false).\n- objAnimation: Item, animacion, loop (true o false).",
+            "itemtype": "method",
+            "name": "doActions",
+            "params": [
+                {
+                    "name": "actions",
+                    "description": "Lista de acciones [if, action, params] a ejecutar.",
+                    "type": "Array"
+                },
+                {
+                    "name": "thing",
+                    "description": "Parámetro extra 1, usado en algunas actions.",
+                    "type": "String"
+                },
+                {
+                    "name": "thing2",
+                    "description": "Parámetro extra 2, usado en algunas actions.",
+                    "type": "String"
+                }
+            ],
+            "class": "Actions"
+        },
+        {
+            "file": "Camera.js",
+            "line": 8,
+            "description": "Coordenada x",
+            "itemtype": "property",
+            "name": "x",
+            "type": "int",
+            "class": "Camera"
+        },
+        {
+            "file": "Camera.js",
+            "line": 14,
+            "description": "Coordenada y",
+            "itemtype": "property",
+            "name": "y",
+            "type": "int",
+            "class": "Camera"
+        },
+        {
+            "file": "Camera.js",
+            "line": 32,
+            "description": "La camara sigue al item seleccionado",
+            "itemtype": "method",
+            "name": "follow",
+            "params": [
+                {
+                    "name": "itemName",
+                    "description": "ID del item a seguir.",
+                    "type": "String"
+                }
+            ],
+            "class": "Camera"
+        },
+        {
+            "file": "Camera.js",
+            "line": 45,
+            "description": "Deja de seguir a cualquier item seleccionado previamente.",
+            "itemtype": "method",
+            "name": "noFollow",
+            "class": "Camera"
+        },
+        {
+            "file": "Camera.js",
+            "line": 54,
+            "description": "Mueve la camara a la poscion X,Y",
+            "itemtype": "method",
+            "name": "setPos",
+            "params": [
+                {
+                    "name": "newx",
+                    "description": "Coordenada X",
+                    "type": "Int"
+                },
+                {
+                    "name": "newy",
+                    "description": "Coordenada Y",
+                    "type": "Int"
+                },
+                {
+                    "name": "inmediate",
+                    "description": "Con o sin animación (true=sin animación)",
+                    "type": "Bool"
+                }
+            ],
+            "class": "Camera"
+        },
+        {
+            "file": "Character.js",
+            "line": 22,
+            "class": "Core"
+        },
+        {
+            "file": "Character.js",
+            "line": 30,
+            "class": "Core"
+        },
+        {
+            "file": "Character.js",
+            "line": 87,
+            "class": "Core"
+        },
+        {
+            "file": "Character.js",
+            "line": 326,
+            "class": "Core"
+        },
+        {
+            "file": "Character.js",
+            "line": 341,
+            "class": "Core"
+        },
+        {
+            "file": "Character.js",
+            "line": 353,
+            "class": "Core"
+        },
+        {
+            "file": "Character.js",
+            "line": 361,
+            "class": "Core"
+        },
+        {
+            "file": "Character.js",
+            "line": 383,
+            "class": "Core"
+        },
+        {
+            "file": "Character.js",
+            "line": 385,
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 11,
+            "description": "Registra las entradas de teclado",
+            "itemtype": "property",
+            "name": "keyboard",
+            "type": "Array",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 18,
+            "description": "Objeto para gestionar la representación gráfica.",
+            "itemtype": "property",
+            "name": "renderer",
+            "type": "PIXI.CanvasRenderer",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 27,
+            "description": "Contenedor principal de objetos gráficos en pantalla.",
+            "itemtype": "property",
+            "name": "stage",
+            "type": "PIXI.Container",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 44,
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 46,
+            "description": "Control de camara dentro de la escena.",
+            "itemtype": "property",
+            "name": "camera",
+            "type": "Camera",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 53,
+            "description": "Contenedor para todos los elementos actualmente en pantalla.",
+            "itemtype": "property",
+            "name": "mainContainer",
+            "type": "PIXI.Container",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 60,
+            "description": "On Screen Display (capa de inerfaz)",
+            "itemtype": "property",
+            "name": "osd",
+            "type": "Osd",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 68,
+            "description": "Personaje principal",
+            "itemtype": "property",
+            "name": "character",
+            "type": "Character",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 75,
+            "description": "Escena cargada actualmente",
+            "itemtype": "property",
+            "name": "scene",
+            "type": "Scene",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 83,
+            "description": "Lista de acciones",
+            "itemtype": "property",
+            "name": "lactions",
+            "type": "Lactions",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 108,
+            "description": "Ajusta el tamaño del renderer si cambia el tamaño de la pantalla.",
+            "itemtype": "method",
+            "name": "recalculate",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 129,
+            "description": "Precarga los archivos de sonido.",
+            "itemtype": "method",
+            "name": "carga_sonido",
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 241,
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 256,
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 257,
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 272,
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 464,
+            "class": "Core"
+        },
+        {
+            "file": "Core.js",
+            "line": 475,
+            "class": "Core"
+        },
+        {
+            "file": "Item.js",
+            "line": 146,
+            "class": ""
+        },
+        {
+            "file": "Item.js",
+            "line": 148,
+            "class": ""
+        },
+        {
+            "file": "M4Thing.js",
+            "line": 35,
+            "class": ""
+        },
+        {
+            "file": "M4Thing.js",
+            "line": 110,
+            "class": ""
+        },
+        {
+            "file": "M4Thing.js",
+            "line": 282,
+            "class": ""
+        },
+        {
+            "file": "M4Thing.js",
+            "line": 299,
+            "class": ""
+        },
+        {
+            "file": "Utilities.js",
+            "line": 269,
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: fileoverview",
+            "line": " vendors/phoria/gl-matrix-min.js:1"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " vendors/phoria/gl-matrix-min.js:1"
+        },
+        {
+            "message": "unknown tag: actions",
+            "line": " Actions.js:1"
+        },
+        {
+            "message": "unknown tag: camera",
+            "line": " Camera.js:1"
+        },
+        {
+            "message": "unknown tag: core",
+            "line": " Core.js:1"
+        },
+        {
+            "message": "Missing item type",
+            "line": " vendors/phoria/gl-matrix-min.js:1"
+        },
+        {
+            "message": "Missing item type\nSoundJS FlashAudioPlugin also includes swfobject (http://code.google.com/p/swfobject/)",
+            "line": " vendors/soundjs/soundjs-0.6.1.min.js:13"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:158"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:159"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:160"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:161"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:162"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:163"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:164"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:165"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:166"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:167"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:168"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:169"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:170"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Actions.js:171"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Character.js:22"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Character.js:30"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Character.js:87"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Character.js:326"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Character.js:341"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Character.js:353"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Character.js:361"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Character.js:383"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Character.js:385"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Core.js:44"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Core.js:241"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Core.js:256"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Core.js:257"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Core.js:272"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Core.js:464"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Core.js:475"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Item.js:146"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Item.js:148"
+        },
+        {
+            "message": "Missing item type",
+            "line": " M4Thing.js:35"
+        },
+        {
+            "message": "Missing item type",
+            "line": " M4Thing.js:110"
+        },
+        {
+            "message": "Missing item type",
+            "line": " M4Thing.js:282"
+        },
+        {
+            "message": "Missing item type",
+            "line": " M4Thing.js:299"
+        },
+        {
+            "message": "Missing item type",
+            "line": " Utilities.js:269"
+        }
+    ]
+}

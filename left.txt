@@ -1,7 +1,7 @@
-verbos
-inventario
+verbos sin imagenes
+inventario imagen y tamaño desde config
 cambio de pantalla
 dialogos
 sonido
 guardar/cargar
-
+multiidioma
