@@ -1,0 +1,25 @@
+# === Lista blanca ===
+# Se ignora TODO por defecto y solo se publican el motor y su documentacion.
+# Asi ningun contenido del juego (assets, escenas, dialogos, builds...) puede
+# colarse al repo publico por error.
+
+/*
+
+!/.gitignore
+!/README.md
+!/LICENSE
+!/index.html
+
+# Motor. Las fuentes (m4engine/fonts/) se excluyen por licencia: el motor las
+# referencia via @font-face; cada cual pone las suyas (ver README).
+!/m4engine/
+/m4engine/fonts/
+
+# Documentacion: solo el formato de datos y la plantilla de ejemplo.
+!/docs/
+/docs/*
+!/docs/GAMEDATA_FORMAT.md
+!/docs/gamedata_template/
+
+# Cruft del sistema / editores
+.DS_Store
